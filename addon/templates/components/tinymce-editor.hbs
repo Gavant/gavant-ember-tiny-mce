@@ -1,0 +1,7 @@
+<div class="tinymce-editor" ...attributes {{did-insert this.initEditor}}>
+    {{#if hasBlock}}
+        {{yield}}
+    {{else}}
+        <textarea id={{this.areaId}}></textarea>
+    {{/if}}
+</div>
