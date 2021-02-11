@@ -33,10 +33,10 @@ export default class TinymceEditor extends Component<TinymceEditorArgs> {
         }
         tinymce!.init({
             selector: this.selector,
-            plugins: 'spellchecker',
-            toolbar:
-                'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
-            content_css: '/vendor.css'
+            // plugins: 'spellchecker',
+            // toolbar:
+            //     'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
+            content_css: '/assets/vendor.css'
         });
     }
 }

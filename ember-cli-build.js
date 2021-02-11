@@ -1,7 +1,6 @@
 'use strict';
 
 const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
-// const { Funnel } = require('broccoli-funnel');
 module.exports = function (defaults) {
     let app = new EmberAddon(defaults, {
         // Add options here
@@ -14,10 +13,5 @@ module.exports = function (defaults) {
     behave. You most likely want to be modifying `./index.js` or app's build file
   */
 
-    // const tinyMCEFunnel = new Funnel('node_modules/tinymce', {
-    //     srcDir: '/themes',
-    //     destDir: 'assets'
-    // });
-    // return app.toTree([tinyMCEFunnel]);
     return app.toTree();
 };

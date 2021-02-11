@@ -2,7 +2,7 @@
 
 module.exports = {
     root: true,
-    parser: '@typescript-eslint/parser',
+    parser: 'babel-eslint',
     plugins: ['ember', '@typescript-eslint', 'prettier'],
     extends: [
         'eslint:recommended',
