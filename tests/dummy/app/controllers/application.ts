@@ -1,5 +1,6 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
 import { TinymceEditorPlugins } from '@gavant/ember-tinymce/components/tinymce-editor';
 
@@ -7,9 +8,19 @@ export default class Application extends Controller {
     plugins: string[] = [TinymceEditorPlugins.EMOTICONS];
     toolbar: string[] = ['emoticons'];
 
+    @tracked
+    value = '<p>Such wow</p>';
+
     @action
-    onRender() {
+    onInit() {
+        this.value = '<p>Much fun</p>';
         console.log('rendered');
+    }
+
+    @action
+    onUpdate(value: string) {
+        this.value = value;
+        console.log(value);
     }
 }
 

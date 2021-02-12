@@ -1,3 +1,4 @@
+import { later, next } from '@ember/runloop';
 import { render } from '@ember/test-helpers';
 
 import { setupRenderingTest } from 'ember-qunit';
@@ -6,13 +7,25 @@ import { TinymceEditorPlugins } from '@gavant/ember-tinymce/components/tinymce-e
 
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
+import { Editor, EditorEvent, Events } from 'tinymce';
 
 module('Integration | Component | tinymce-editor', function (hooks) {
     setupRenderingTest(hooks);
 
+    test('Can render initial text', async function (assert) {
+        const done = assert.async();
+        const text = '<p>Such wow, Much fun</p>';
+        const onInit = (_event: EditorEvent<Events.EditorEventMap['init']>, instance: Editor) => {
+            assert.equal(instance.getContent(), text);
+            done();
+        };
+        this.set('onInit', onInit);
+        this.set('text', text);
+
+        await render(hbs`<TinymceEditor @onInit={{this.onInit}} @value={{this.text}}/>`);
+    });
+
     test('Can render toolbar and plugins', async function (assert) {
-        // Set any properties with this.set('myProperty', 'value');
-        // Handle any actions with this.set('myAction', function(val) { ... });
         const plugins = [TinymceEditorPlugins.EMOTICONS];
         this.set('plugins', plugins);
 
@@ -20,17 +33,15 @@ module('Integration | Component | tinymce-editor', function (hooks) {
         this.set('toolbar', toolbar);
         const done = assert.async();
 
-        const onRender = () => {
+        const onInit = () => {
             const emoticonsButton = this.element
                 .querySelector('.tox-toolbar__group')
                 ?.querySelector('[aria-label=Emoticons]');
             assert.ok(emoticonsButton !== null && emoticonsButton !== undefined);
             done();
         };
-        this.set('onRender', onRender);
+        this.set('onInit', onInit);
 
-        await render(
-            hbs`<TinymceEditor @plugins={{this.plugins}} @toolbar={{this.toolbar}} @onRender={{this.onRender}}/>`
-        );
+        await render(hbs`<TinymceEditor @plugins={{this.plugins}} @toolbar={{this.toolbar}} @onInit={{this.onInit}}/>`);
     });
 });

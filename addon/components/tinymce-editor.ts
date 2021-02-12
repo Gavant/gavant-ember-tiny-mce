@@ -2,7 +2,7 @@ import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import Component from '@glimmer/component';
 
-import { RawEditorSettings, TinyMCE } from 'tinymce';
+import { Editor, EditorEvent, Events, RawEditorSettings, TinyMCE } from 'tinymce';
 
 declare var tinymce: TinyMCE;
 // eslint-disable-next-line no-unused-vars
@@ -272,30 +272,141 @@ export enum TinymceEditorPlugins {
 
 export interface TinymceEditorArgs extends RawEditorSettings {
     plugins: TinymceEditorPlugins[];
-    onRender?: (event: any) => void;
+    onUpdate: (html: string, event: Editor) => void;
+    value?: string;
+    onInit?: (event: EditorEvent<Events.EditorEventMap['init']>, editor: Editor) => void;
+    baseUrl?: string;
 }
 
 export default class TinymceEditor extends Component<TinymceEditorArgs> {
+    private instance?: Editor;
+
+    /**
+     * Tinymce wants to load its own theme and skin. This tells tinymce where to try and load the items from
+     *
+     * @readonly
+     * @memberof TinymceEditor
+     */
+    get baseUrl() {
+        return this.args.baseUrl ?? 'assets/';
+    }
+    /**
+     * Get the selector for the current editor instance
+     *
+     * @readonly
+     * @memberof TinymceEditor
+     */
     get selector() {
-        return this.args.selector ?? `#${this.areaId}`;
+        return this.args.selector ?? `#${this.uniqueId}`;
+    }
+    /**
+     * Get a unique id for the current editor instance
+     *
+     * @readonly
+     * @memberof TinymceEditor
+     */
+    get uniqueId() {
+        return `tinymce-${guidFor(this)}`;
+    }
+    /**
+     * Gets the current HTML
+     *
+     * @readonly
+     * @memberof TinymceEditor
+     */
+    get currentContent() {
+        return this.instance?.getContent();
     }
 
-    get areaId() {
-        return guidFor(this);
-    }
-
+    /**
+     * This function is called on change of the passed in value argument. If the new value is not the same as whats currently there, then we should update
+     *
+     * @memberof TinymceEditor
+     */
     @action
-    async initEditor() {
+    updateValue(): void {
+        if (this.instance && this.instance.initialized) {
+            const value = this.args.value ?? this.currentContent;
+
+            if (value !== this.currentContent) {
+                const localEditor = this.instance;
+                localEditor.undoManager.transact(() => localEditor.setContent(this.args.value as string));
+            }
+        }
+    }
+
+    /**
+     * Init the editor. Loads the tinymce package, and passes in all the arguments
+     *
+     * @memberof TinymceEditor
+     */
+    @action
+    async initEditor(): Promise<void> {
         if (!window.tinymce) {
             await import('tinymce').then((module) => module.default);
         }
-        tinymce.baseURL = 'assets/';
-        await tinymce.init({
+        tinymce.baseURL = this.baseUrl;
+
+        tinymce.init({
             ...this.args,
             selector: this.selector,
-            init_instance_callback: (event) => {
-                this.args.onRender?.(event);
+            setup: (editor) => {
+                this.instance = editor;
+                editor.on('init', this.handleInit.bind(this));
             }
         });
     }
+
+    /**
+     * When the user makes changes in the editor, update the owners of the component.
+     *
+     * @memberof TinymceEditor
+     */
+    handleEditorChange(): void {
+        const editor = this.instance;
+        if (editor) {
+            const newContent = editor.getContent();
+
+            if (newContent !== this.args.value) {
+                this.args.onUpdate(newContent, editor);
+            }
+        }
+    }
+
+    /**
+     * Destroy the editor when we destroy the component
+     *
+     * @memberof TinymceEditor
+     */
+    willDestroy() {
+        const editor = this.instance;
+        if (editor) {
+            editor.off('init', this.handleInit);
+            if (editor.initialized) {
+                editor.off('change keyup setcontent', this.handleEditorChange.bind(this));
+            }
+            editor.remove();
+        }
+    }
+
+    /**
+     * Handle the initialization of the editor and setting the default value
+     *
+     * @private
+     * @param {EditorEvent<Events.EditorEventMap['init']>} initEvent
+     * @memberof TinymceEditor
+     */
+    private handleInit = (initEvent: EditorEvent<Events.EditorEventMap['init']>) => {
+        const editor = this.instance;
+        if (editor) {
+            editor.setContent(this.args.value ?? '');
+            editor.undoManager.clear();
+            editor.undoManager.add();
+            editor.setDirty(false);
+
+            editor.on('change keyup setcontent', this.handleEditorChange.bind(this));
+
+            this.args.onInit?.(initEvent, editor);
+        }
+    };
 }
