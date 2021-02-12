@@ -2,7 +2,15 @@ import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import Component from '@glimmer/component';
 
-import { RawEditorSettings } from 'tinymce';
+import { RawEditorSettings, TinyMCE } from 'tinymce';
+
+declare var tinymce: TinyMCE;
+// eslint-disable-next-line no-unused-vars
+interface Window {
+    tinymce?: TinyMCE;
+}
+
+declare var window: Window;
 
 export enum TinymceEditorPlugins {
     /**
@@ -261,6 +269,7 @@ export enum TinymceEditorPlugins {
      */
     WORD_COUNT = 'wordcount'
 }
+
 export interface TinymceEditorArgs extends RawEditorSettings {
     plugins: TinymceEditorPlugins[];
 }
@@ -279,11 +288,9 @@ export default class TinymceEditor extends Component<TinymceEditorArgs> {
         if (!window.tinymce) {
             await import('tinymce').then((module) => module.default);
         }
-        TinymceEditorPlugins.ADVLIST;
-        tinymce!.init({
+        tinymce.init({
             ...this.args,
-            selector: this.selector,
-            content_css: '/assets/vendor.css'
+            selector: this.selector
         });
     }
 }
