@@ -23,10 +23,10 @@
         "paths": {
             "dummy/tests/*": ["tests/*"],
             "dummy/*": ["tests/dummy/app/*", "app/*"],
-            "gavant-ember-tiny-mce": ["addon"],
-            "gavant-ember-tiny-mce/*": ["addon/*"],
-            "gavant-ember-tiny-mce/test-support": ["addon-test-support"],
-            "gavant-ember-tiny-mce/test-support/*": ["addon-test-support/*"],
+            "@gavant/ember-tinymce": ["addon"],
+            "@gavant/ember-tinymce/*": ["addon/*"],
+            "@gavant/ember-tinymce/test-support": ["addon-test-support"],
+            "@gavant/ember-tinymce/test-support/*": ["addon-test-support/*"],
             "*": ["types/*"]
         }
     },

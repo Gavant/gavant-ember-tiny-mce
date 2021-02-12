@@ -272,6 +272,7 @@ export enum TinymceEditorPlugins {
 
 export interface TinymceEditorArgs extends RawEditorSettings {
     plugins: TinymceEditorPlugins[];
+    onRender?: (event: any) => void;
 }
 
 export default class TinymceEditor extends Component<TinymceEditorArgs> {
@@ -288,9 +289,13 @@ export default class TinymceEditor extends Component<TinymceEditorArgs> {
         if (!window.tinymce) {
             await import('tinymce').then((module) => module.default);
         }
-        tinymce.init({
+        tinymce.baseURL = 'assets/';
+        await tinymce.init({
             ...this.args,
-            selector: this.selector
+            selector: this.selector,
+            init_instance_callback: (event) => {
+                this.args.onRender?.(event);
+            }
         });
     }
 }

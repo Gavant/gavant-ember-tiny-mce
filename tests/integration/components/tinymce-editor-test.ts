@@ -2,27 +2,35 @@ import { render } from '@ember/test-helpers';
 
 import { setupRenderingTest } from 'ember-qunit';
 
+import { TinymceEditorPlugins } from '@gavant/ember-tinymce/components/tinymce-editor';
+
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
 module('Integration | Component | tinymce-editor', function (hooks) {
     setupRenderingTest(hooks);
 
-    test('it renders', async function (assert) {
+    test('Can render toolbar and plugins', async function (assert) {
         // Set any properties with this.set('myProperty', 'value');
         // Handle any actions with this.set('myAction', function(val) { ... });
+        const plugins = [TinymceEditorPlugins.EMOTICONS];
+        this.set('plugins', plugins);
 
-        await render(hbs`{{tinymce-editor}}`);
+        const toolbar = [TinymceEditorPlugins.EMOTICONS];
+        this.set('toolbar', toolbar);
+        const done = assert.async();
 
-        assert.equal(this.element.textContent?.trim(), '');
+        const onRender = () => {
+            const emoticonsButton = this.element
+                .querySelector('.tox-toolbar__group')
+                ?.querySelector('[aria-label=Emoticons]');
+            assert.ok(emoticonsButton !== null && emoticonsButton !== undefined);
+            done();
+        };
+        this.set('onRender', onRender);
 
-        // Template block usage:
-        await render(hbs`
-      {{#tinymce-editor}}
-        template block text
-      {{/tinymce-editor}}
-    `);
-
-        assert.equal(this.element.textContent?.trim(), 'template block text');
+        await render(
+            hbs`<TinymceEditor @plugins={{this.plugins}} @toolbar={{this.toolbar}} @onRender={{this.onRender}}/>`
+        );
     });
 });

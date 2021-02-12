@@ -6,7 +6,7 @@ module.exports = {
     treeForPublic() {
         const tinymceTree = new Funnel('node_modules/tinymce/', {
             include: ['icons/**/*', 'skins/**/*', 'themes/**/*', 'plugins/**/*'],
-            destDir: 'assets'
+            destDir: ''
         });
         return tinymceTree;
     },
