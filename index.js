@@ -4,27 +4,16 @@ module.exports = {
     name: '@gavant/ember-tiny-mce',
 
     treeForPublic() {
-        return new Funnel('node_modules/tinymce/', {
-            include: ['icons/**/*', 'skins/**/*', 'themes/**/*'],
+        const tinymceTree = new Funnel('node_modules/tinymce/', {
+            include: ['icons/**/*', 'skins/**/*', 'themes/**/*', 'plugins/**/*'],
             destDir: 'assets'
         });
+        return tinymceTree;
     },
 
     options: {
         babel: {
             plugins: [require.resolve('ember-auto-import/babel-plugin')]
-        },
-        autoImport: {
-            publicAssetURL: '/assets',
-            alias: {
-                tinymce: 'tinymce'
-            },
-            skipBabel: [
-                {
-                    package: 'tinymce',
-                    semVer: '*'
-                }
-            ]
         }
     }
 };
