@@ -1,38 +1,37 @@
-gavant-ember-tiny-mce
-==============================================================================
+# @gavant/ember-tinymce
 
-[Short description of the addon.]
+Typescript lazy loaded wrapper for the tinymce wysiwyg editor.
 
+## Compatibility
 
-Compatibility
-------------------------------------------------------------------------------
+-   Ember.js v3.12 or above
+-   Ember CLI v2.13 or above
+-   Node.js v10 or above
 
-* Ember.js v3.12 or above
-* Ember CLI v2.13 or above
-* Node.js v10 or above
-
-
-Installation
-------------------------------------------------------------------------------
+## Installation
 
 ```
-ember install gavant-ember-tiny-mce
+ember install @gavant/ember-tinymce
 ```
 
+## Usage
 
-Usage
-------------------------------------------------------------------------------
+Just use it in your app, and it tinymce will be loaded before its used for the first time. We accept any args that the tinymce editor does.
 
-[Longer description of how to use the addon in apps.]
+```
+export default class Application extends Controller {
+    plugins: string[] = [TinymceEditorPlugins.EMOTICONS];
+    toolbar: string[] = ['emoticons'];
+    ...
+}
 
+<TinymceEditor @plugins={{this.plugins}} @toolbar={{this.toolbar}} />
+```
 
-Contributing
-------------------------------------------------------------------------------
+## Contributing
 
 See the [Contributing](CONTRIBUTING.md) guide for details.
 
-
-License
-------------------------------------------------------------------------------
+## License
 
 This project is licensed under the [MIT License](LICENSE.md).

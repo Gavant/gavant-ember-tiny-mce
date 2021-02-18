@@ -1,3 +1,10 @@
-<h2 id="title">Welcome to Ember</h2>
-
-{{outlet}}
+<textarea>
+    hello
+</textarea>
+<TinymceEditor
+    @plugins={{this.plugins}}
+    @toolbar={{this.toolbar}}
+    @onInit={{this.onInit}}
+    @value={{this.value}}
+    @onUpdate={{this.onUpdate}}
+/>
