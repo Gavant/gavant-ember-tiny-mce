@@ -1,4 +1,3 @@
-import { later, next } from '@ember/runloop';
 import { render } from '@ember/test-helpers';
 
 import { setupRenderingTest } from 'ember-qunit';
