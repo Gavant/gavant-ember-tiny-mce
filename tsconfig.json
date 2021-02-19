@@ -28,8 +28,8 @@
             "@gavant/ember-tinymce/test-support": ["addon-test-support"],
             "@gavant/ember-tinymce/test-support/*": ["addon-test-support/*"],
             "*": ["types/*"],
-            "tinymcetypes": ["node_modules/tinymce/tinymce.d.ts"]
+
         }
     },
-    "include": ["app/**/*", "addon/**/*", "tests/**/*", "types/**/*", "test-support/**/*", "addon-test-support/**/*", "node_modules/tinymce/tinymce.d.ts"]
+    "include": ["app/**/*", "addon/**/*", "tests/**/*", "types/**/*", "test-support/**/*", "addon-test-support/**/*"]
 }

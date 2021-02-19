@@ -2,7 +2,12 @@ import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import Component from '@glimmer/component';
 
-import type { Editor, EditorEvent, Events, RawEditorSettings, TinyMCE } from 'tinymcetypes';
+// https://github.com/ef4/ember-auto-import/issues/169#issuecomment-479546122
+type RawEditorSettings = import('tinymce').RawEditorSettings;
+type Editor = import('tinymce').Editor;
+type TinyMCE = import('tinymce').TinyMCE;
+type Init = import('tinymce').Events.EditorEventMap['init'];
+type InitEvent = import('tinymce').EditorEvent<Init>;
 
 declare var tinymce: TinyMCE;
 // eslint-disable-next-line no-unused-vars
@@ -274,7 +279,7 @@ export interface TinymceEditorArgs extends RawEditorSettings {
     plugins: TinymceEditorPlugins[];
     onUpdate: (html: string, event: Editor) => void;
     value?: string;
-    onInit?: (event: EditorEvent<Events.EditorEventMap['init']>, editor: Editor) => void;
+    onInit?: (event: InitEvent, editor: Editor) => void;
     baseUrl?: string;
 }
 
@@ -396,7 +401,7 @@ export default class TinymceEditor extends Component<TinymceEditorArgs> {
      * @param {EditorEvent<Events.EditorEventMap['init']>} initEvent
      * @memberof TinymceEditor
      */
-    private handleInit = (initEvent: EditorEvent<Events.EditorEventMap['init']>) => {
+    private handleInit = (initEvent: InitEvent) => {
         const editor = this.instance;
         if (editor) {
             editor.setContent(this.args.value ?? '');
