@@ -2,7 +2,7 @@ import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import Component from '@glimmer/component';
 
-import { Editor, EditorEvent, Events, RawEditorSettings, TinyMCE } from 'tinymce';
+import type { Editor, EditorEvent, Events, RawEditorSettings, TinyMCE } from 'tinymcetypes';
 
 declare var tinymce: TinyMCE;
 // eslint-disable-next-line no-unused-vars
