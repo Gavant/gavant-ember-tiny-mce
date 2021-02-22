@@ -5,7 +5,8 @@
     "keywords": [
         "ember-addon",
         "tinymce",
-        "lazyload"
+        "lazyload",
+        "wysiwyg"
     ],
     "repository": "https://github.com/Gavant/gavant-ember-tiny-mce",
     "license": "MIT",

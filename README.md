@@ -16,7 +16,8 @@ ember install @gavant/ember-tinymce
 
 ## Usage
 
-Just use it in your app, and it tinymce will be loaded before its used for the first time. We accept any args that the tinymce editor does.
+The tinymce library and its assets are not bundled with the main app/vendor files, and will not be loaded until the component is rendered for the first time.
+We accept any args that the tinymce editor does.
 
 ```
 export default class Application extends Controller {
