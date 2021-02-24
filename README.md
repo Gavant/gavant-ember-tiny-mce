@@ -26,7 +26,7 @@ export default class Application extends Controller {
     ...
 }
 
-<TinymceEditor @plugins={{this.plugins}} @toolbar={{this.toolbar}} />
+<TinymceEditor @plugins={{this.plugins}} @toolbar={{this.toolbar}} @value={{this.value}} @onUpdate={{this.onUpdate}} />
 ```
 
 ## Contributing
