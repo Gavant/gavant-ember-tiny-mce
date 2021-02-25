@@ -1,6 +1,7 @@
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 
 // https://github.com/ef4/ember-auto-import/issues/169#issuecomment-479546122
 type RawEditorSettings = import('tinymce').RawEditorSettings;
@@ -286,6 +287,8 @@ export interface TinymceEditorArgs extends RawEditorSettings {
 export default class TinymceEditor extends Component<TinymceEditorArgs> {
     private instance?: Editor;
 
+    @tracked loading = true;
+
     /**
      * Tinymce wants to load its own theme and skin. This tells tinymce where to try and load the items from
      *
@@ -410,7 +413,7 @@ export default class TinymceEditor extends Component<TinymceEditorArgs> {
             editor.setDirty(false);
 
             editor.on('change keyup setcontent', this.handleEditorChange.bind(this));
-
+            this.loading = false;
             this.args.onInit?.(initEvent, editor);
         }
     };

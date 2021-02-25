@@ -1,7 +1,10 @@
 <div class="tinymce-editor" ...attributes {{did-insert this.initEditor}} {{did-update this.updateValue @value}}>
-    {{#if hasBlock}}
+    {{#if (has-block)}}
         {{yield}}
     {{else}}
-        <textarea id={{this.uniqueId}}></textarea>
+        <textarea id={{this.uniqueId}} style="visibility: hidden;"></textarea>
+        {{#if this.loading}}
+            {{yield to="loading"}}
+        {{/if}}
     {{/if}}
 </div>

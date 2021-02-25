@@ -23,10 +23,15 @@ We accept any args that the tinymce editor does.
 export default class Application extends Controller {
     plugins: string[] = [TinymceEditorPlugins.EMOTICONS];
     toolbar: string[] = ['emoticons'];
+    @tracked value = 'Much wow';
     ...
 }
 
-<TinymceEditor @plugins={{this.plugins}} @toolbar={{this.toolbar}} />
+<TinymceEditor @plugins={{this.plugins}} @toolbar={{this.toolbar}} @value={{this.value}} @onUpdate={{this.onUpdate}}>
+    <:loading>
+        Hey, Im shown while tinymce is initializing. This might be helpful when rendering in fastboot
+    </:loading>
+</TinymceEditor>
 ```
 
 ## Contributing

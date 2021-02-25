@@ -32,6 +32,7 @@
         "ember-cli-babel": "^7.21.0",
         "ember-cli-htmlbars": "^5.2.0",
         "ember-cli-typescript": "^4.1.0",
+        "ember-named-blocks-polyfill": "^0.2.4",
         "tinymce": "^5.7.0"
     },
     "devDependencies": {

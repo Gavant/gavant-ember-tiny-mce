@@ -1,10 +1,15 @@
 <textarea>
     hello
 </textarea>
+
 <TinymceEditor
     @plugins={{this.plugins}}
     @toolbar={{this.toolbar}}
     @onInit={{this.onInit}}
     @value={{this.value}}
     @onUpdate={{this.onUpdate}}
-/>
+>
+    <:loading>
+        Test
+    </:loading>
+</TinymceEditor>
