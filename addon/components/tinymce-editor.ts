@@ -1,5 +1,6 @@
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
+import { next } from '@ember/runloop';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
@@ -354,7 +355,7 @@ export default class TinymceEditor extends Component<TinymceEditorArgs> {
             await import('tinymce').then((module) => module.default);
         }
         // This is needed for things like modals, where tinymce thinks we are calling init too early.
-        setTimeout(() => {
+        next(() => {
             tinymce.baseURL = this.baseUrl;
 
             tinymce.init({
@@ -365,7 +366,7 @@ export default class TinymceEditor extends Component<TinymceEditorArgs> {
                     editor.on('init', this.handleInit.bind(this));
                 }
             });
-        }, 0);
+        });
     }
 
     /**
