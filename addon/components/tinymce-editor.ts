@@ -296,7 +296,7 @@ export default class TinymceEditor extends Component<TinymceEditorArgs> {
      * @memberof TinymceEditor
      */
     get baseUrl() {
-        return this.args.baseUrl ?? 'assets/';
+        return this.args.baseUrl ?? '@gavant/ember-tinymce';
     }
     /**
      * Get the selector for the current editor instance
@@ -353,16 +353,19 @@ export default class TinymceEditor extends Component<TinymceEditorArgs> {
         if (!window.tinymce) {
             await import('tinymce').then((module) => module.default);
         }
-        tinymce.baseURL = this.baseUrl;
+        // This is needed for things like modals, where tinymce thinks we are calling init too early.
+        setTimeout(() => {
+            tinymce.baseURL = this.baseUrl;
 
-        tinymce.init({
-            ...this.args,
-            selector: this.selector,
-            setup: (editor) => {
-                this.instance = editor;
-                editor.on('init', this.handleInit.bind(this));
-            }
-        });
+            tinymce.init({
+                ...this.args,
+                selector: this.selector,
+                setup: (editor) => {
+                    this.instance = editor;
+                    editor.on('init', this.handleInit.bind(this));
+                }
+            });
+        }, 0);
     }
 
     /**
