@@ -1,6 +1,6 @@
 {
     "name": "@gavant/ember-tinymce",
-    "version": "0.0.6",
+    "version": "0.1.0",
     "description": "Lazy Loaded Tiny MCE with typescript support",
     "keywords": [
         "ember-addon",
