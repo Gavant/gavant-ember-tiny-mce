@@ -31,5 +31,5 @@
 
         }
     },
-    "include": ["app/**/*", "addon/**/*", "tests/**/*", "types/**/*", "test-support/**/*", "addon-test-support/**/*"]
+    "include": ["app/**/*", "addon/**/*", "types/**/*", "test-support/**/*", "addon-test-support/**/*"]
 }
