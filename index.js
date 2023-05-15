@@ -12,9 +12,6 @@ module.exports = {
     },
 
     options: {
-        autoImport: {
-            exclude: ['tinymce']
-        },
         fingerprint: {
             exclude: [
                 '@gavant/ember-tinymce/icons/',
