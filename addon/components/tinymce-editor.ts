@@ -281,6 +281,7 @@ export interface TinymceEditorArgs extends RawEditorSettings {
     plugins: TinymceEditorPlugins[];
     onUpdate: (html: string, event: Editor) => void;
     value?: string;
+    onSetup?: (editor: Editor) => void;
     onInit?: (event: InitEvent, editor: Editor) => void;
     baseUrl?: string;
 }
@@ -363,6 +364,7 @@ export default class TinymceEditor extends Component<TinymceEditorArgs> {
                 selector: this.selector,
                 setup: (editor) => {
                     this.instance = editor;
+                    this.args.onSetup?.(editor);
                     editor.on('init', this.handleInit.bind(this));
                 }
             });

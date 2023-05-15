@@ -4,9 +4,9 @@ Typescript lazy loaded wrapper for the tinymce wysiwyg editor.
 
 ## Compatibility
 
--   Ember.js v3.12 or above
--   Ember CLI v2.13 or above
--   Node.js v10 or above
+-   Ember.js v3.24 or above
+-   Ember CLI v3.24 or above
+-   Node.js v12 or above
 
 ## Installation
 
