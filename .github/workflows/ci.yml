@@ -15,9 +15,7 @@ jobs:
     test:
         name: 'Tests'
         runs-on: ubuntu-latest
-
         steps:
-       - uses: actions/checkout@v2
             - uses: actions/checkout@v2
             - uses: volta-cli/action@v1
               with:
@@ -25,9 +23,14 @@ jobs:
                   yarn-version: 1.x
             - name: Install Dependencies
               run: yarn install --frozen-lockfile --non-interactive
+            - name: Lint Addon
+              run: yarn lint
+            - name: Lint Test App
+              run: yarn lint
+            - name: Run Tests
+              run: yarn test
 
-
-        floating:
+    floating:
         name: 'Floating Dependencies'
         runs-on: ubuntu-latest
         steps:
@@ -38,7 +41,8 @@ jobs:
                   yarn-version: 1.x
             - name: Install Dependencies
               run: yarn install --no-lockfile  --non-interactive
-
+            - name: Run Tests
+              run: yarn test
 
     try-scenarios:
         name: ${{ matrix.ember-try-scenario }}
@@ -68,4 +72,4 @@ jobs:
             - name: Test
               env:
                   EMBER_TRY_SCENARIO: ${{ matrix.ember-try-scenario }}
-
+              run: yarn ember try:one $EMBER_TRY_SCENARIO
