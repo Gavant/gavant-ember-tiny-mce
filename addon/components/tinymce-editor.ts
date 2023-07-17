@@ -336,11 +336,11 @@ export default class TinymceEditor extends Component<TinymceEditorArgs> {
     @action
     updateValue(): void {
         if (this.instance && this.instance.initialized) {
-            const value = this.args.value ?? this.currentContent;
+            const value = this.args.value ?? '';
 
             if (value !== this.currentContent) {
                 const localEditor = this.instance;
-                localEditor.undoManager.transact(() => localEditor.setContent(this.args.value as string));
+                localEditor.undoManager.transact(() => localEditor.setContent(value as string));
             }
         }
     }
