@@ -116,6 +116,7 @@
         "configPath": "tests/dummy/config"
     },
     "publishConfig": {
-        "access": "public"
+        "access": "public",
+        "registry": "https://registry.npmjs.org"
     }
 }
